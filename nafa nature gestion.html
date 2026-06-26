@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nafa Nature">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2D4A3E">
+<link rel="manifest" id="pwaManifest">
+<title>Nafa Nature – Gestion des Ventes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --or:      #C9A84C;
+    --or-clair:#F0D88A;
+    --vert:    #2D4A3E;
+    --vert2:   #3D6B5A;
+    --creme:   #FAF6EF;
+    --brun:    #6B4226;
+    --texte:   #1A1A1A;
+    --gris:    #8A8A8A;
+    --blanc:   #FFFFFF;
+    --rouge:   #C0392B;
+    --success: #27AE60;
+    --shadow:  0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--creme);
+    color: var(--texte);
+    min-height: 100vh;
+  }
+
+  /* ===== LOGIN ===== */
+  #loginScreen {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--vert) 0%, var(--vert2) 60%, #C9A84C22 100%);
+  }
+  .login-box {
+    background: var(--blanc);
+    border-radius: 20px;
+    padding: 48px 40px;
+    width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .login-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--vert);
+    letter-spacing: 2px;
+  }
+  .login-logo span { color: var(--or); }
+  .login-sub { color: var(--gris); font-size: 0.85rem; margin: 6px 0 32px; letter-spacing: 1px; text-transform: uppercase; }
+  .login-box select, .login-box input {
+    width: 100%; padding: 12px 16px; border: 1.5px solid #E0D8CC;
+    border-radius: 10px; font-size: 0.95rem; margin-bottom: 14px;
+    font-family: 'DM Sans', sans-serif; background: var(--creme);
+    transition: border-color .2s;
+  }
+  .login-box select:focus, .login-box input:focus { outline: none; border-color: var(--or); }
+  .btn-login {
+    width: 100%; padding: 14px; background: var(--vert);
+    color: var(--blanc); border: none; border-radius: 10px;
+    font-size: 1rem; font-weight: 500; cursor: pointer;
+    transition: background .2s, transform .1s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-login:hover { background: var(--vert2); transform: translateY(-1px); }
+  .login-err { color: var(--rouge); font-size: 0.85rem; margin-top: 10px; display: none; }
+
+  /* ===== APP ===== */
+  #app { display: none; flex-direction: column; min-height: 100vh; }
+
+  /* Header */
+  header {
+    background: var(--vert);
+    color: var(--blanc);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px;
+    height: 62px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; }
+  .header-logo span { color: var(--or); }
+  .header-user { display: flex; align-items: center; gap: 14px; font-size: 0.88rem; }
+  .badge-user {
+    background: var(--or); color: var(--vert);
+    padding: 4px 12px; border-radius: 20px; font-weight: 500;
+  }
+  .btn-logout { background: none; border: 1.5px solid rgba(255,255,255,0.4); color: var(--blanc);
+    padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+    transition: background .2s; font-family: 'DM Sans', sans-serif; }
+  .btn-logout:hover { background: rgba(255,255,255,0.1); }
+
+  /* Nav */
+  nav {
+    background: var(--blanc);
+    display: flex; gap: 0;
+    border-bottom: 2px solid #EDE7DA;
+    padding: 0 28px;
+    overflow-x: auto;
+  }
+  .nav-btn {
+    padding: 14px 22px; border: none; background: none;
+    cursor: pointer; font-size: 0.9rem; color: var(--gris);
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    transition: color .2s, border-color .2s; white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-btn:hover { color: var(--vert); }
+  .nav-btn.active { color: var(--vert); border-bottom-color: var(--or); }
+
+  /* Content */
+  .content { padding: 28px; flex: 1; }
+
+  /* Cards stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 28px; }
+  .stat-card {
+    background: var(--blanc); border-radius: 14px; padding: 22px 20px;
+    box-shadow: var(--shadow); border-left: 4px solid var(--or);
+    transition: transform .2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gris); }
+  .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--vert); margin: 4px 0; }
+  .stat-icon { font-size: 1.6rem; float: right; margin-top: -40px; }
+
+  /* Sections */
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 700; color: var(--vert);
+    margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: #EDE7DA; margin-left: 10px; }
+
+  /* Table */
+  .table-wrap { background: var(--blanc); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: var(--vert); color: var(--blanc); padding: 13px 16px; text-align: left; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; }
+  td { padding: 12px 16px; border-bottom: 1px solid #F0EBE0; font-size: 0.9rem; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #FAF6EF; }
+
+  /* Badges */
+  .badge { padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; }
+  .badge-ok { background: #DCFCE7; color: #166534; }
+  .badge-low { background: #FEF9C3; color: #854D0E; }
+  .badge-out { background: #FEE2E2; color: #991B1B; }
+
+  /* Boutons */
+  .btn { padding: 9px 18px; border: none; border-radius: 8px; cursor: pointer;
+    font-size: 0.88rem; font-weight: 500; font-family: 'DM Sans', sans-serif;
+    transition: opacity .2s, transform .1s; }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-primary { background: var(--vert); color: var(--blanc); }
+  .btn-gold { background: var(--or); color: var(--vert); }
+  .btn-danger { background: var(--rouge); color: var(--blanc); }
+  .btn-sm { padding: 5px 12px; font-size: 0.8rem; }
+
+  /* Forms */
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 0.82rem; font-weight: 500; color: var(--vert); text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 10px 14px; border: 1.5px solid #E0D8CC; border-radius: 8px;
+    font-size: 0.92rem; font-family: 'DM Sans', sans-serif;
+    background: var(--creme); transition: border-color .2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--or);
+  }
+  .form-card { background: var(--blanc); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
+
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--vert); color: var(--blanc);
+    padding: 14px 22px; border-radius: 10px;
+    font-size: 0.9rem; box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    transform: translateY(80px); opacity: 0;
+    transition: all .3s; z-index: 9999;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast.error { background: var(--rouge); }
+
+  /* Vente panier */
+  .panier-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #F0EBE0; }
+  .panier-item:last-child { border-bottom: none; }
+  .panier-total { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--vert); font-weight: 700; }
+
+  /* Rapport */
+  .rapport-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 700px) { .rapport-grid { grid-template-columns: 1fr; } .form-grid { grid-template-columns: 1fr; } }
+
+  .chart-bar-wrap { background: var(--blanc); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); }
+  .chart-bar-title { font-weight: 600; color: var(--vert); margin-bottom: 16px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.85rem; }
+  .bar-label { width: 130px; color: var(--texte); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-track { flex: 1; height: 16px; background: #F0EBE0; border-radius: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--vert), var(--or)); border-radius: 8px; transition: width .6s ease; }
+  .bar-val { width: 60px; text-align: right; font-weight: 500; color: var(--vert); }
+
+  /* Alerte stock */
+  .alerte-box { background: #FEF9C3; border: 1.5px solid #EAB308; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; font-size: 0.88rem; color: #713F12; }
+
+  .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .search-input { padding: 9px 14px; border: 1.5px solid #E0D8CC; border-radius: 8px; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; background: var(--creme); min-width: 200px; }
+  .search-input:focus { outline: none; border-color: var(--or); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">NAFA <span>NATURE</span></div>
+    <div class="login-sub">Gestion des ventes</div>
+    <select id="loginUser">
+      <option value="">— Choisir un compte —</option>
+      <option value="admin">👑 Administratrice (NAFI)</option>
+      <option value="sec1">👩‍💼 Secrétaire 1</option>
+      <option value="sec2">👩‍💼 Secrétaire 2</option>
+    </select>
+    <input type="password" id="loginPass" placeholder="Mot de passe" />
+    <button class="btn-login" onclick="doLogin()">Se connecter</button>
+    <div class="login-err" id="loginErr">Identifiants incorrects</div>
+    <div style="margin-top:18px;font-size:0.75rem;color:#aaa;">
+      Admin: admin / nafa2024 &nbsp;|&nbsp; Sec1: sec1 / sec1pass &nbsp;|&nbsp; Sec2: sec2 / sec2pass
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="header-logo">NAFA <span>NATURE</span></div>
+    <div class="header-user">
+      <span id="headerUserName"></span>
+      <span class="badge-user" id="headerRole"></span>
+      <button id="btnInstaller" onclick="installerApp()" style="display:none;background:var(--or);color:var(--vert);border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:'DM Sans',sans-serif;align-items:center;gap:6px;">📲 Installer l'app</button>
+      <button class="btn-logout admin-only" onclick="resetDonnees()" style="border-color:rgba(255,100,100,0.4);color:#ffaaaa;">🗑️ Reset</button>
+      <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <nav id="mainNav">
+    <button class="nav-btn active" onclick="showSection('dashboard')" data-section="dashboard">📊 Tableau de bord</button>
+    <button class="nav-btn" onclick="showSection('vente')" data-section="vente">🛒 Nouvelle vente</button>
+    <button class="nav-btn" onclick="showSection('stock')" data-section="stock">📦 Stock</button>
+    <button class="nav-btn" onclick="showSection('historique')" data-section="historique">📋 Historique</button>
+    <button class="nav-btn admin-only" onclick="showSection('rapport')" data-section="rapport">📈 Rapports</button>
+    <button class="nav-btn admin-only" onclick="showSection('depenses')" data-section="depenses">💸 Dépenses</button>
+    <button class="nav-btn admin-only" onclick="showSection('comptes')" data-section="comptes">👥 Comptes</button>
+  </nav>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="sec-dashboard">
+      <div class="stats-grid" id="statsGrid"></div>
+      <div id="alerteStock"></div>
+      <div class="chart-bar-wrap">
+        <div class="chart-bar-title">🏆 Top produits vendus</div>
+        <div id="topProduits"></div>
+      </div>
+    </div>
+
+    <!-- VENTE -->
+    <div class="section" id="sec-vente">
+      <div class="section-title">🛒 Enregistrer une vente</div>
+      <div class="form-card">
+        <div class="form-grid" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label>Produit</label>
+            <select id="venteSelect" onchange="updateVentePrix()">
+              <option value="">— Choisir un produit —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Quantité</label>
+            <input type="number" id="venteQte" value="1" min="1" />
+          </div>
+          <div class="form-group">
+            <label>Prix unitaire (FCFA)</label>
+            <input type="number" id="ventePrix" placeholder="Auto" />
+          </div>
+          <div class="form-group">
+            <label>Client (optionnel)</label>
+            <input type="text" id="venteClient" placeholder="Nom du client" />
+          </div>
+        </div>
+        <button class="btn btn-gold" onclick="ajouterAuPanier()">+ Ajouter au panier</button>
+      </div>
+
+      <div class="form-card" id="panierCard">
+        <div class="chart-bar-title" style="margin-bottom:14px;">🛍️ Panier</div>
+        <div id="panierItems"><p style="color:var(--gris);font-size:0.88rem;">Aucun article ajouté.</p></div>
+        <div style="margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>Total : <span class="panier-total" id="panierTotal">0</span> <small>FCFA</small></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-danger" onclick="viderPanier()">Vider</button>
+            <button class="btn btn-primary" onclick="validerVente()">✅ Valider la vente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STOCK -->
+    <div class="section" id="sec-stock">
+      <div class="section-title">📦 Gestion du stock</div>
+
+      <div class="form-card admin-only" id="formAjoutProduit">
+        <div style="font-weight:600;color:var(--vert);margin-bottom:14px;">Ajouter / modifier un produit</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nom du produit</label>
+            <input type="text" id="pNom" placeholder="ex: Beurre de karité pur" />
+          </div>
+          <div class="form-group">
+            <label>Catégorie</label>
+            <select id="pCat">
+              <option>Soin cheveux</option>
+              <option>Soin corps</option>
+              <option>Soin visage</option>
+              <option>Bébé</option>
+              <option>Huile</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Prix de vente (FCFA)</label>
+            <input type="number" id="pPrix" placeholder="ex: 3500" />
+          </div>
+          <div class="form-group">
+            <label>Stock initial</label>
+            <input type="number" id="pStock" placeholder="ex: 50" />
+          </div>
+          <div class="form-group">
+            <label>Seuil alerte stock</label>
+            <input type="number" id="pSeuil" placeholder="ex: 5" value="5" />
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px;">
+          <button class="btn btn-primary" onclick="ajouterProduit()">Enregistrer le produit</button>
+          <button class="btn" style="background:#EDE7DA;" onclick="resetFormProduit()">Réinitialiser</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input class="search-input" type="text" placeholder="🔍 Rechercher un produit..." oninput="filterStock(this.value)" />
+        <span id="stockCount" style="color:var(--gris);font-size:0.85rem;"></span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Produit</th><th>Catégorie</th><th>Prix (FCFA)</th>
+              <th>Stock</th><th>Statut</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="stockTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div class="section" id="sec-historique">
+      <div class="section-title">📋 Historique des ventes</div>
+      <div class="toolbar">
+        <input class="search-input" type="text" placeholder="🔍 Rechercher..." oninput="filterHistorique(this.value)" />
+        <button class="btn btn-gold" onclick="exportCSV()">📥 Exporter en tableau</button>
+        <span id="histCount" style="color:var(--gris);font-size:0.85rem;"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Date</th><th>Produit(s)</th><th>Qté</th><th>Total (FCFA)</th><th>Client</th><th>Secrétaire</th><th>Reçu</th></tr>
+          </thead>
+          <tbody id="histTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RAPPORT -->
+    <div class="section admin-only" id="sec-rapport">
+      <div class="section-title">📈 Rapports & Statistiques</div>
+      <div class="rapport-grid">
+        <div class="chart-bar-wrap">
+          <div class="chart-bar-title">💰 Ventes par secrétaire</div>
+          <div id="rapportSecretaire"></div>
+        </div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar-title">📦 Top 5 produits</div>
+          <div id="rapportProduits"></div>
+        </div>
+        <div class="chart-bar-wrap" style="grid-column:1/-1;">
+          <div class="chart-bar-title">📅 Ventes des 7 derniers jours</div>
+          <div id="rapportJours"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÉPENSES -->
+    <div class="section admin-only" id="sec-depenses">
+      <div class="section-title">💸 Gestion des dépenses</div>
+      <div class="form-card">
+        <div style="font-weight:600;color:var(--vert);margin-bottom:14px;">Enregistrer une dépense</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Libellé</label>
+            <input type="text" id="depNom" placeholder="ex: Achat emballages" />
+          </div>
+          <div class="form-group">
+            <label>Catégorie</label>
+            <select id="depCat">
+              <option>Achat matières premières</option>
+              <option>Emballages</option>
+              <option>Transport / livraison</option>
+              <option>Publicité / Marketing</option>
+              <option>Salaires</option>
+              <option>Loyer / Charges</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Montant (FCFA)</label>
+            <input type="number" id="depMontant" placeholder="ex: 15000" />
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="depDate" />
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:14px;" onclick="ajouterDepense()">Enregistrer la dépense</button>
+      </div>
+
+      <div class="stats-grid" id="depStatsGrid" style="margin-bottom:20px;"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Date</th><th>Libellé</th><th>Catégorie</th><th>Montant (FCFA)</th><th>Action</th></tr></thead>
+          <tbody id="depTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- COMPTES -->
+    <div class="section admin-only" id="sec-comptes">
+      <div class="section-title">👥 Gestion des comptes</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Utilisateur</th><th>Rôle</th><th>Ventes effectuées</th><th>CA généré (FCFA)</th><th>Statut</th></tr></thead>
+          <tbody id="comptesTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ============================================================
+// DONNÉES
+// ============================================================
+const COMPTES = {
+  admin: { pass: 'nafa2024', role: 'admin', nom: 'NAFI (Admin)' },
+  sec1:  { pass: 'sec1pass', role: 'secretaire', nom: 'Secrétaire 1' },
+  sec2:  { pass: 'sec2pass', role: 'secretaire', nom: 'Secrétaire 2' },
+};
+
+let currentUser = null;
+let panier = [];
+let editingProduitId = null;
+
+// ============================================================
+// SAUVEGARDE LOCALE (localStorage)
+// ============================================================
+const PRODUITS_DEFAUT = [
+  { id: 1, nom: 'Sérum Force Root Men', cat: 'Soin cheveux', prix: 6000, stock: 100, seuil: 10 },
+  { id: 2, nom: 'Baume Force Root Men', cat: 'Soin cheveux', prix: 6000, stock: 30,  seuil: 5  },
+  { id: 3, nom: 'Dermaroller',          cat: 'Soin cheveux', prix: 3000, stock: 4,   seuil: 2  },
+  { id: 4, nom: 'Brosse à massage',     cat: 'Soin cheveux', prix: 2000, stock: 10,  seuil: 3  },
+];
+
+function chargerDonnees() {
+  try {
+    const p = localStorage.getItem('nafa_produits');
+    const v = localStorage.getItem('nafa_ventes');
+    const d = localStorage.getItem('nafa_depenses');
+    const ids = localStorage.getItem('nafa_ids');
+    produits  = p ? JSON.parse(p) : PRODUITS_DEFAUT;
+    ventes    = v ? JSON.parse(v).map(x=>({...x, date: new Date(x.date)})) : [];
+    depenses  = d ? JSON.parse(d) : [];
+    if (ids) { const o=JSON.parse(ids); nextVenteId=o.vente; nextProduitId=o.produit; nextDepId=o.dep; }
+  } catch(e) { produits=PRODUITS_DEFAUT; ventes=[]; depenses=[]; }
+}
+
+function sauvegarder() {
+  try {
+    localStorage.setItem('nafa_produits',  JSON.stringify(produits));
+    localStorage.setItem('nafa_ventes',    JSON.stringify(ventes));
+    localStorage.setItem('nafa_depenses',  JSON.stringify(depenses));
+    localStorage.setItem('nafa_ids',       JSON.stringify({vente:nextVenteId, produit:nextProduitId, dep:nextDepId}));
+  } catch(e) { console.warn('Sauvegarde impossible:', e); }
+}
+
+// Chargement au démarrage
+let produits, ventes, depenses;
+let nextVenteId = 1, nextProduitId = 8, nextDepId = 1;
+chargerDonnees();
+
+// ============================================================
+// AUTH
+// ============================================================
+function doLogin() {
+  const u = document.getElementById('loginUser').value;
+  const p = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginErr');
+  if (!u || !COMPTES[u] || COMPTES[u].pass !== p) {
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  currentUser = { id: u, ...COMPTES[u] };
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('headerUserName').textContent = currentUser.nom;
+  document.getElementById('headerRole').textContent = currentUser.role === 'admin' ? 'Admin' : 'Secrétaire';
+
+  // Afficher / masquer éléments admin
+  document.querySelectorAll('.admin-only').forEach(el => {
+    el.style.display = currentUser.role === 'admin' ? '' : 'none';
+  });
+
+  renderAll();
+  showSection('dashboard');
+}
+
+function doLogout() {
+  currentUser = null;
+  panier = [];
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginUser').value = '';
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelector(`[data-section="${id}"]`).classList.add('active');
+  if (id === 'rapport') renderRapport();
+  if (id === 'comptes') renderComptes();
+  if (id === 'depenses') { document.getElementById('depDate').value=new Date().toISOString().split('T')[0]; renderDepenses(); }
+}
+
+// ============================================================
+// RENDU GLOBAL
+// ============================================================
+function renderAll() {
+  renderDashboard();
+  renderStockTable(produits);
+  renderHistorique(ventes);
+  renderVenteSelect();
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const today = new Date().toDateString();
+  const ventesAujourd = ventes.filter(v => new Date(v.date).toDateString() === today);
+  const caTotal = ventes.reduce((s,v)=>s+v.total,0);
+  const caToday = ventesAujourd.reduce((s,v)=>s+v.total,0);
+  const stockBas = produits.filter(p=>p.stock<=p.seuil).length;
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card"><div class="stat-label">CA Total</div><div class="stat-value">${caTotal.toLocaleString('fr')}</div><small>FCFA</small><span class="stat-icon">💰</span></div>
+    <div class="stat-card"><div class="stat-label">Ventes aujourd'hui</div><div class="stat-value">${ventesAujourd.length}</div><small>transactions</small><span class="stat-icon">🛒</span></div>
+    <div class="stat-card"><div class="stat-label">CA aujourd'hui</div><div class="stat-value">${caToday.toLocaleString('fr')}</div><small>FCFA</small><span class="stat-icon">📅</span></div>
+    <div class="stat-card" style="border-left-color:${stockBas>0?'#EAB308':'var(--or)'}"><div class="stat-label">Alertes stock</div><div class="stat-value" style="color:${stockBas>0?'#CA8A04':'var(--vert)'}">${stockBas}</div><small>produit(s)</small><span class="stat-icon">⚠️</span></div>
+  `;
+
+  // Alertes
+  const alertes = produits.filter(p=>p.stock<=p.seuil);
+  const ab = document.getElementById('alerteStock');
+  ab.innerHTML = alertes.length ? `<div class="alerte-box">⚠️ Stock faible ou épuisé : <strong>${alertes.map(p=>p.nom+(p.stock===0?' (ÉPUISÉ)':` (${p.stock} restants)`)).join(', ')}</strong></div>` : '';
+
+  // Top produits
+  const sales = {};
+  ventes.forEach(v=>v.items.forEach(i=>{ sales[i.nom]=(sales[i.nom]||0)+(i.qte*i.prix); }));
+  const sorted = Object.entries(sales).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const max = sorted[0]?.[1]||1;
+  document.getElementById('topProduits').innerHTML = sorted.map(([nom,val])=>`
+    <div class="bar-row">
+      <div class="bar-label">${nom}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(val/max*100).toFixed(0)}%"></div></div>
+      <div class="bar-val">${val.toLocaleString('fr')}</div>
+    </div>`).join('') || '<p style="color:var(--gris);font-size:0.85rem;">Aucune vente enregistrée.</p>';
+}
+
+// ============================================================
+// STOCK
+// ============================================================
+function renderStockTable(list) {
+  document.getElementById('stockCount').textContent = `${list.length} produit(s)`;
+  document.getElementById('stockTableBody').innerHTML = list.map(p=>{
+    const badge = p.stock===0 ? '<span class="badge badge-out">Épuisé</span>'
+                : p.stock<=p.seuil ? '<span class="badge badge-low">Faible</span>'
+                : '<span class="badge badge-ok">OK</span>';
+    const actions = currentUser.role==='admin'
+      ? `<button class="btn btn-sm btn-gold" onclick="editProduit(${p.id})">Modifier</button>
+         <button class="btn btn-sm" style="background:#EDE7DA;" onclick="ajusterStock(${p.id})">Réappro</button>`
+      : `<span style="color:var(--gris);font-size:0.8rem;">—</span>`;
+    return `<tr>
+      <td><strong>${p.nom}</strong></td>
+      <td><span class="badge" style="background:#EDE7DA;color:var(--vert);">${p.cat}</span></td>
+      <td>${p.prix.toLocaleString('fr')} FCFA</td>
+      <td><strong>${p.stock}</strong></td>
+      <td>${badge}</td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap;">${actions}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" style="color:var(--gris);text-align:center;padding:24px;">Aucun produit.</td></tr>';
+}
+
+function filterStock(q) {
+  renderStockTable(produits.filter(p=>p.nom.toLowerCase().includes(q.toLowerCase())||p.cat.toLowerCase().includes(q.toLowerCase())));
+}
+
+function ajouterProduit() {
+  const nom = document.getElementById('pNom').value.trim();
+  const cat = document.getElementById('pCat').value;
+  const prix = parseInt(document.getElementById('pPrix').value);
+  const stock = parseInt(document.getElementById('pStock').value);
+  const seuil = parseInt(document.getElementById('pSeuil').value)||5;
+  if (!nom || !prix || isNaN(stock)) { showToast('Remplissez tous les champs obligatoires', true); return; }
+
+  if (editingProduitId) {
+    const idx = produits.findIndex(p=>p.id===editingProduitId);
+    produits[idx] = { ...produits[idx], nom, cat, prix, seuil };
+    showToast('Produit modifié !');
+    editingProduitId = null;
+  } else {
+    produits.push({ id: nextProduitId++, nom, cat, prix, stock, seuil });
+    showToast('Produit ajouté au stock !');
+  }
+  resetFormProduit();
+  sauvegarder();
+  renderAll();
+}
+
+function resetFormProduit() {
+  ['pNom','pPrix','pStock','pSeuil'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pSeuil').value='5';
+  editingProduitId = null;
+}
+
+function editProduit(id) {
+  const p = produits.find(x=>x.id===id);
+  document.getElementById('pNom').value=p.nom;
+  document.getElementById('pCat').value=p.cat;
+  document.getElementById('pPrix').value=p.prix;
+  document.getElementById('pStock').value=p.stock;
+  document.getElementById('pSeuil').value=p.seuil;
+  editingProduitId = id;
+  showSection('stock');
+  window.scrollTo(0,0);
+  showToast('Modification en cours...');
+}
+
+function ajusterStock(id) {
+  const p = produits.find(x=>x.id===id);
+  const qte = prompt(`Réapprovisionnement "${p.nom}"\nStock actuel: ${p.stock}\nQuantité à ajouter :`);
+  if (qte && !isNaN(parseInt(qte)) && parseInt(qte)>0) {
+    p.stock += parseInt(qte);
+    showToast(`Stock mis à jour : ${p.stock} unités`);
+    sauvegarder();
+    renderAll();
+  }
+}
+
+// ============================================================
+// VENTE
+// ============================================================
+function renderVenteSelect() {
+  const sel = document.getElementById('venteSelect');
+  sel.innerHTML = '<option value="">— Choisir un produit —</option>' +
+    produits.filter(p=>p.stock>0).map(p=>`<option value="${p.id}">${p.nom} (stock: ${p.stock}) — ${p.prix.toLocaleString('fr')} FCFA</option>`).join('');
+}
+
+function updateVentePrix() {
+  const id = parseInt(document.getElementById('venteSelect').value);
+  const p = produits.find(x=>x.id===id);
+  document.getElementById('ventePrix').value = p ? p.prix : '';
+}
+
+function ajouterAuPanier() {
+  const id = parseInt(document.getElementById('venteSelect').value);
+  const qte = parseInt(document.getElementById('venteQte').value)||1;
+  const prix = parseInt(document.getElementById('ventePrix').value);
+  const client = document.getElementById('venteClient').value.trim();
+  if (!id) { showToast('Choisissez un produit', true); return; }
+  const p = produits.find(x=>x.id===id);
+  if (qte > p.stock) { showToast(`Stock insuffisant (${p.stock} disponibles)`, true); return; }
+  panier.push({ produitId: id, nom: p.nom, qte, prix: prix||p.prix, client });
+  renderPanier();
+  document.getElementById('venteQte').value = 1;
+}
+
+function renderPanier() {
+  if (!panier.length) {
+    document.getElementById('panierItems').innerHTML = '<p style="color:var(--gris);font-size:0.88rem;">Aucun article ajouté.</p>';
+    document.getElementById('panierTotal').textContent = '0';
+    return;
+  }
+  let total = 0;
+  document.getElementById('panierItems').innerHTML = panier.map((item,i)=>{
+    total += item.qte * item.prix;
+    return `<div class="panier-item">
+      <span style="flex:1;font-weight:500;">${item.nom}</span>
+      <span style="color:var(--gris);">x${item.qte}</span>
+      <span style="color:var(--vert);font-weight:600;min-width:100px;text-align:right;">${(item.qte*item.prix).toLocaleString('fr')} FCFA</span>
+      <button class="btn btn-sm btn-danger" onclick="retirerPanier(${i})">✕</button>
+    </div>`;
+  }).join('');
+  document.getElementById('panierTotal').textContent = total.toLocaleString('fr');
+}
+
+function retirerPanier(i) { panier.splice(i,1); renderPanier(); }
+function viderPanier() { panier=[]; renderPanier(); }
+
+function validerVente() {
+  if (!panier.length) { showToast('Panier vide', true); return; }
+  const total = panier.reduce((s,i)=>s+i.qte*i.prix,0);
+  const client = panier[0].client || '';
+  // Déduire du stock
+  panier.forEach(item=>{
+    const p = produits.find(x=>x.id===item.produitId);
+    p.stock -= item.qte;
+  });
+  ventes.unshift({ id: nextVenteId++, date: new Date(), items: panier.map(i=>({nom:i.nom,qte:i.qte,prix:i.prix})), total, client, user: currentUser.id });
+  panier = [];
+  renderPanier();
+  sauvegarder();
+  renderAll();
+  showToast(`✅ Vente validée — ${total.toLocaleString('fr')} FCFA`);
+  showSection('historique');
+}
+
+// ============================================================
+// HISTORIQUE
+// ============================================================
+function renderHistorique(list) {
+  document.getElementById('histCount').textContent = `${list.length} vente(s)`;
+  document.getElementById('histTableBody').innerHTML = list.map(v=>`
+    <tr>
+      <td>#${v.id}</td>
+      <td>${new Date(v.date).toLocaleDateString('fr-FR')} ${new Date(v.date).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</td>
+      <td>${v.items.map(i=>i.nom).join(', ')}</td>
+      <td>${v.items.reduce((s,i)=>s+i.qte,0)}</td>
+      <td><strong>${v.total.toLocaleString('fr')} FCFA</strong></td>
+      <td>${v.client||'—'}</td>
+      <td>${COMPTES[v.user]?.nom||v.user}</td>
+      <td><button class="btn btn-sm btn-gold" onclick="imprimerRecu(${v.id})">🖨️ Reçu</button></td>
+    </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--gris);padding:24px;">Aucune vente.</td></tr>';
+}
+
+function filterHistorique(q) {
+  renderHistorique(ventes.filter(v=>
+    v.client.toLowerCase().includes(q.toLowerCase()) ||
+    v.items.some(i=>i.nom.toLowerCase().includes(q.toLowerCase())) ||
+    COMPTES[v.user]?.nom.toLowerCase().includes(q.toLowerCase())
+  ));
+}
+
+// ============================================================
+// RAPPORT
+// ============================================================
+function renderRapport() {
+  // Par secrétaire
+  const byUser = {};
+  ventes.forEach(v=>{ byUser[v.user]=(byUser[v.user]||0)+v.total; });
+  const maxU = Math.max(...Object.values(byUser),1);
+  document.getElementById('rapportSecretaire').innerHTML = Object.entries(byUser).map(([u,ca])=>`
+    <div class="bar-row">
+      <div class="bar-label">${COMPTES[u]?.nom||u}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(ca/maxU*100).toFixed(0)}%"></div></div>
+      <div class="bar-val">${ca.toLocaleString('fr')}</div>
+    </div>`).join('') || '<p style="color:var(--gris);font-size:0.85rem;">Aucune donnée.</p>';
+
+  // Top produits
+  const sales = {};
+  ventes.forEach(v=>v.items.forEach(i=>{ sales[i.nom]=(sales[i.nom]||0)+(i.qte*i.prix); }));
+  const sorted = Object.entries(sales).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxP = sorted[0]?.[1]||1;
+  document.getElementById('rapportProduits').innerHTML = sorted.map(([nom,val])=>`
+    <div class="bar-row">
+      <div class="bar-label">${nom}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(val/maxP*100).toFixed(0)}%"></div></div>
+      <div class="bar-val">${val.toLocaleString('fr')}</div>
+    </div>`).join('') || '<p style="color:var(--gris);font-size:0.85rem;">Aucune donnée.</p>';
+
+  // 7 derniers jours
+  const days = {};
+  for (let i=6;i>=0;i--) {
+    const d = new Date(); d.setDate(d.getDate()-i);
+    days[d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})] = 0;
+  }
+  ventes.forEach(v=>{
+    const key = new Date(v.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
+    if (key in days) days[key] += v.total;
+  });
+  const maxD = Math.max(...Object.values(days),1);
+  document.getElementById('rapportJours').innerHTML = Object.entries(days).map(([j,ca])=>`
+    <div class="bar-row">
+      <div class="bar-label">${j}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(ca/maxD*100).toFixed(0)}%"></div></div>
+      <div class="bar-val">${ca>0?ca.toLocaleString('fr'):'0'}</div>
+    </div>`).join('');
+}
+
+// ============================================================
+// COMPTES
+// ============================================================
+function renderComptes() {
+  document.getElementById('comptesTableBody').innerHTML = Object.entries(COMPTES).map(([id,c])=>{
+    const myVentes = ventes.filter(v=>v.user===id);
+    const ca = myVentes.reduce((s,v)=>s+v.total,0);
+    return `<tr>
+      <td><strong>${c.nom}</strong></td>
+      <td><span class="badge" style="background:${c.role==='admin'?'#FEF9C3':'#DCFCE7'};color:${c.role==='admin'?'#713F12':'#166534'}">${c.role==='admin'?'Admin':'Secrétaire'}</span></td>
+      <td>${myVentes.length}</td>
+      <td>${ca.toLocaleString('fr')} FCFA</td>
+      <td><span class="badge badge-ok">Actif</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// REÇU D'IMPRESSION
+// ============================================================
+function imprimerRecu(id) {
+  const v = ventes.find(x=>x.id===id);
+  if (!v) return;
+  const lignes = v.items.map(i=>`
+    <tr>
+      <td style="padding:6px 10px;">${i.nom}</td>
+      <td style="padding:6px 10px;text-align:center;">${i.qte}</td>
+      <td style="padding:6px 10px;text-align:right;">${i.prix.toLocaleString('fr')} F</td>
+      <td style="padding:6px 10px;text-align:right;font-weight:600;">${(i.qte*i.prix).toLocaleString('fr')} F</td>
+    </tr>`).join('');
+  const recu = window.open('','_blank','width=420,height=600');
+  recu.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Reçu #${v.id} - Nafa Nature</title>
+  <style>
+    body{font-family:Arial,sans-serif;padding:30px;max-width:380px;margin:auto;color:#1a1a1a;}
+    .logo{text-align:center;font-size:1.6rem;font-weight:700;letter-spacing:3px;color:#2D4A3E;}
+    .logo span{color:#C9A84C;}
+    .sub{text-align:center;font-size:0.7rem;color:#888;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;}
+    .divider{border:none;border-top:1px dashed #ccc;margin:14px 0;}
+    table{width:100%;border-collapse:collapse;}
+    th{background:#2D4A3E;color:#fff;padding:7px 10px;font-size:0.8rem;text-align:left;}
+    .total-row{font-size:1.1rem;font-weight:700;color:#2D4A3E;}
+    .footer{text-align:center;margin-top:20px;font-size:0.75rem;color:#aaa;}
+    @media print{button{display:none!important;}}
+  </style></head><body>
+  <div class="logo">NAFA <span>NATURE</span></div>
+  <div class="sub">Reçu de vente</div>
+  <hr class="divider">
+  <p style="font-size:0.82rem;"><strong>Reçu N° :</strong> #${v.id}</p>
+  <p style="font-size:0.82rem;"><strong>Date :</strong> ${new Date(v.date).toLocaleDateString('fr-FR')} à ${new Date(v.date).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</p>
+  <p style="font-size:0.82rem;"><strong>Client :</strong> ${v.client||'Client comptoir'}</p>
+  <p style="font-size:0.82rem;"><strong>Vendeur :</strong> ${COMPTES[v.user]?.nom||v.user}</p>
+  <hr class="divider">
+  <table>
+    <thead><tr><th>Produit</th><th>Qté</th><th>Prix U.</th><th>Total</th></tr></thead>
+    <tbody>${lignes}</tbody>
+  </table>
+  <hr class="divider">
+  <table><tr class="total-row">
+    <td colspan="3" style="padding:8px 10px;">TOTAL</td>
+    <td style="padding:8px 10px;text-align:right;">${v.total.toLocaleString('fr')} FCFA</td>
+  </tr></table>
+  <hr class="divider">
+  <div class="footer">Merci pour votre achat !<br>Nafa Nature — Produits naturels de qualité 🌿</div>
+  <br>
+  <div style="text-align:center;"><button onclick="window.print()" style="background:#2D4A3E;color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:0.9rem;">🖨️ Imprimer</button></div>
+  </body></html>`);
+  recu.document.close();
+}
+
+// ============================================================
+// EXPORT CSV
+// ============================================================
+function exportCSV() {
+  if (!ventes.length) { showToast('Aucune vente à exporter', true); return; }
+  const rows = [['N°','Date','Heure','Produit(s)','Quantité','Total FCFA','Client','Vendeur']];
+  ventes.forEach(v=>{
+    rows.push([
+      `#${v.id}`,
+      new Date(v.date).toLocaleDateString('fr-FR'),
+      new Date(v.date).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),
+      v.items.map(i=>i.nom).join(' | '),
+      v.items.reduce((s,i)=>s+i.qte,0),
+      v.total,
+      v.client||'',
+      COMPTES[v.user]?.nom||v.user
+    ]);
+  });
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `nafa_nature_ventes_${new Date().toLocaleDateString('fr-FR').replace(/\//g,'-')}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✅ Tableau exporté avec succès !');
+}
+
+// ============================================================
+// DÉPENSES
+// ============================================================
+let depenses = [];
+let nextDepId = 1;
+
+function ajouterDepense() {
+  const nom = document.getElementById('depNom').value.trim();
+  const cat = document.getElementById('depCat').value;
+  const montant = parseInt(document.getElementById('depMontant').value);
+  const date = document.getElementById('depDate').value;
+  if (!nom || !montant || !date) { showToast('Remplissez tous les champs', true); return; }
+  depenses.unshift({ id: nextDepId++, nom, cat, montant, date });
+  document.getElementById('depNom').value='';
+  document.getElementById('depMontant').value='';
+  sauvegarder();
+  renderDepenses();
+  showToast('Dépense enregistrée !');
+}
+
+function renderDepenses() {
+  const total = depenses.reduce((s,d)=>s+d.montant,0);
+  const caTotal = ventes.reduce((s,v)=>s+v.total,0);
+  const benefice = caTotal - total;
+  document.getElementById('depStatsGrid').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total dépenses</div><div class="stat-value" style="color:var(--rouge);">${total.toLocaleString('fr')}</div><small>FCFA</small><span class="stat-icon">💸</span></div>
+    <div class="stat-card"><div class="stat-label">CA total ventes</div><div class="stat-value">${caTotal.toLocaleString('fr')}</div><small>FCFA</small><span class="stat-icon">💰</span></div>
+    <div class="stat-card" style="border-left-color:${benefice>=0?'var(--or)':'var(--rouge)'}"><div class="stat-label">Bénéfice net</div><div class="stat-value" style="color:${benefice>=0?'var(--vert)':'var(--rouge)'};">${benefice.toLocaleString('fr')}</div><small>FCFA</small><span class="stat-icon">${benefice>=0?'📈':'📉'}</span></div>
+  `;
+  document.getElementById('depTableBody').innerHTML = depenses.map(d=>`
+    <tr>
+      <td>#${d.id}</td>
+      <td>${new Date(d.date+'T00:00').toLocaleDateString('fr-FR')}</td>
+      <td><strong>${d.nom}</strong></td>
+      <td><span class="badge" style="background:#EDE7DA;color:var(--vert);">${d.cat}</span></td>
+      <td style="color:var(--rouge);font-weight:600;">${d.montant.toLocaleString('fr')} FCFA</td>
+      <td><button class="btn btn-sm btn-danger" onclick="supprimerDepense(${d.id})">Supprimer</button></td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--gris);padding:24px;">Aucune dépense enregistrée.</td></tr>';
+}
+
+function supprimerDepense(id) {
+  depenses = depenses.filter(d=>d.id!==id);
+  sauvegarder();
+  renderDepenses();
+  showToast('Dépense supprimée');
+}
+
+function resetDonnees() {
+  if (!confirm('⚠️ Supprimer TOUTES les données (ventes, dépenses) et remettre le stock initial ?\n\nCette action est irréversible !')) return;
+  localStorage.clear();
+  chargerDonnees();
+  renderAll();
+  showToast('Données réinitialisées');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, err=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (err?' error':'');
+  setTimeout(()=>t.className='', 3000);
+}
+
+// ============================================================
+// PWA — INSTALLATION (compatible iPhone & Android)
+// ============================================================
+try {
+  const manifest = {
+    name: "Nafa Nature – Gestion des Ventes",
+    short_name: "Nafa Nature",
+    description: "Logiciel de gestion de ventes Nafa Nature",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#FAF6EF",
+    theme_color: "#2D4A3E",
+    orientation: "portrait-primary",
+    icons: [{
+      src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+      sizes: "192x192", type: "image/png"
+    }]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  document.getElementById('pwaManifest').href = URL.createObjectURL(blob);
+} catch(e) {}
+
+// Bouton installation Android (Chrome)
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('btnInstaller');
+  if (btn) btn.style.display = 'flex';
+});
+window.addEventListener('appinstalled', () => {
+  const btn = document.getElementById('btnInstaller');
+  if (btn) btn.style.display = 'none';
+  showToast('✅ Application installée !');
+});
+
+function installerApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+  } else {
+    // iPhone Safari
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (isIOS) {
+      alert('📱 Installer sur iPhone :\n\n1. Appuie sur ⬆️ (Partager) en bas de Safari\n2. Choisis "Sur l\'écran d\'accueil"\n3. Appuie "Ajouter" ✅');
+    } else {
+      alert('💡 Pour installer :\n\nChrome : clique les 3 points ⋮ → "Installer l\'application"\nEdge : clique ⋯ → "Installer ce site"');
+    }
+  }
+}
+</script>
+</body>
+</html>
