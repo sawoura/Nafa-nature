@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Secret des Cheveux Crépus — Nafissatou Sawoura</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold:        #C9A84C;
+    --gold-light:  #E8D08A;
+    --gold-pale:   #F8EFD4;
+    --brown-deep:  #1E0F06;
+    --brown-mid:   #3D1F0D;
+    --brown-warm:  #5C3317;
+    --cream:       #FDF8F0;
+    --cream-warm:  #F5ECD8;
+    --green:       #3B6B4A;
+    --green-light: #EAF2EC;
+    --white:       #FFFFFF;
+    --text-main:   #2C1810;
+    --text-muted:  #7A5C45;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text-main);
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ─────────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown-mid) 55%, #2E1208 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 60px 20px;
+  }
+
+  /* Texture dots */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(201,168,76,0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  /* Gold glow */
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  /* Book mockup */
+  .book-mockup {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .book-shadow {
+    position: absolute;
+    width: 200px; height: 20px;
+    background: rgba(0,0,0,0.4);
+    bottom: -10px; left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    filter: blur(10px);
+  }
+
+  .book-3d {
+    width: 200px;
+    height: 270px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: perspective(800px) rotateY(-20deg) rotateX(3deg);
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: perspective(800px) rotateY(-20deg) rotateX(3deg) translateY(0px); }
+    50%       { transform: perspective(800px) rotateY(-20deg) rotateX(3deg) translateY(-12px); }
+  }
+
+  .book-face {
+    width: 200px;
+    height: 270px;
+    background: linear-gradient(160deg, #1E0F06 0%, #2C1810 40%, #3D1F0D 100%);
+    border-radius: 3px 10px 10px 3px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px;
+    border: 1px solid rgba(201,168,76,0.4);
+    overflow: hidden;
+  }
+
+  .book-face::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px 8px 8px 2px;
+    pointer-events: none;
+  }
+
+  .book-top-band {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 18px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  }
+
+  .book-bottom-band {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 18px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  }
+
+  .book-content {
+    text-align: center;
+    z-index: 1;
+    margin-top: 8px;
+  }
+
+  .book-stars {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+
+  .book-title-small {
+    font-family: 'Playfair Display', serif;
+    font-size: 9px;
+    font-weight: 400;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .book-title-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .book-title-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .book-line {
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 10px;
+  }
+
+  .book-subtitle {
+    font-size: 7.5px;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    line-height: 1.5;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  .book-author {
+    font-family: 'Playfair Display', serif;
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    font-style: italic;
+  }
+
+  .book-spine {
+    width: 22px;
+    height: 270px;
+    background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    position: absolute;
+    left: -22px;
+    top: 0;
+    border-radius: 3px 0 0 3px;
+    transform-origin: right;
+    transform: rotateY(90deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .book-spine-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 7px;
+    font-weight: 700;
+    color: var(--brown-deep);
+    writing-mode: vertical-rl;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .badge-floating {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(201,168,76,0.5);
+    z-index: 10;
+  }
+
+  .badge-floating span:first-child {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--brown-deep);
+    line-height: 1;
+  }
+
+  .badge-floating span:last-child {
+    font-size: 7px;
+    font-weight: 700;
+    color: var(--brown-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Hero text */
+  .hero-text { color: var(--white); }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+    width: 20px;
+  }
+
+  .hero-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.08;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .hero-h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .hero-promise {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    border-left: 2px solid var(--gold);
+    padding-left: 14px;
+  }
+
+  .hero-promise strong { color: var(--gold-light); }
+
+  .cta-group { display: flex; flex-direction: column; gap: 12px; }
+
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 32px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--brown-deep);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(201,168,76,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.3px;
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(201,168,76,0.55);
+  }
+
+  .cta-primary .arrow { font-size: 18px; }
+
+  .cta-meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  .trust-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 4px;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .trust-item .icon { color: var(--gold); font-size: 13px; }
+
+  /* ─── SOCIAL PROOF BAR ─────────────────────────────────── */
+  .proof-bar {
+    background: var(--brown-warm);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+  }
+
+  .proof-icon { font-size: 20px; }
+
+  .proof-text { font-size: 12px; color: rgba(255,255,255,0.7); }
+  .proof-text strong { display: block; color: var(--white); font-size: 14px; font-weight: 600; }
+
+  /* ─── SECTIONS ─────────────────────────────────────────── */
+  section { padding: 80px 20px; }
+
+  .container { max-width: 860px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 900;
+    color: var(--brown-deep);
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .section-lead {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto 50px;
+  }
+
+  /* ─── PAIN SECTION ─────────────────────────────────────── */
+  .pain-section { background: var(--cream-warm); }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .pain-card {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    border-left: 3px solid #E53935;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .pain-icon { font-size: 22px; margin-bottom: 8px; }
+  .pain-text { font-size: 13px; color: var(--text-main); line-height: 1.6; }
+
+  .transition-promise {
+    background: linear-gradient(135deg, var(--brown-deep), var(--brown-mid));
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    color: var(--white);
+  }
+
+  .transition-promise p {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .transition-promise p em { color: var(--gold); font-style: normal; font-weight: 700; }
+
+  /* ─── CONTENT ─────────────────────────────────────────── */
+  .content-section { background: var(--white); }
+
+  .chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .chapter-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 8px;
+    background: var(--cream);
+    border: 1px solid rgba(201,168,76,0.2);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .chapter-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(201,168,76,0.15);
+  }
+
+  .ch-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    min-width: 32px;
+  }
+
+  .ch-info { flex: 1; }
+  .ch-title { font-size: 13px; font-weight: 600; color: var(--brown-deep); line-height: 1.4; }
+
+  /* ─── BONUS ─────────────────────────────────────────────── */
+  .bonus-section { background: var(--brown-deep); }
+
+  .bonus-section .section-title { color: var(--white); }
+  .bonus-section .section-lead { color: rgba(255,255,255,0.55); }
+
+  .bonus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  .bonus-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 10px;
+    padding: 22px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .bonus-card:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+
+  .bonus-icon { font-size: 26px; margin-bottom: 10px; }
+  .bonus-title { font-size: 14px; font-weight: 600; color: var(--gold-light); margin-bottom: 4px; }
+  .bonus-desc { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* ─── AUTHOR ─────────────────────────────────────────────── */
+  .author-section { background: var(--cream-warm); }
+
+  .author-inner {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .author-avatar {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brown-mid), var(--brown-deep));
+    border: 4px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .author-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.1), transparent);
+    border-radius: 50%;
+  }
+
+  .author-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--brown-deep);
+    margin-bottom: 4px;
+  }
+
+  .author-role {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .author-bio {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ─── TESTIMONIALS ─────────────────────────────────────── */
+  .testimonials-section { background: var(--white); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    padding: 24px;
+    border-radius: 10px;
+    background: var(--cream);
+    border: 1px solid var(--gold-pale);
+    position: relative;
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--gold);
+    opacity: 0.2;
+    position: absolute;
+    top: 8px; left: 16px;
+  }
+
+  .testimonial-stars { color: var(--gold); font-size: 13px; margin-bottom: 12px; }
+
+  .testimonial-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonial-author { font-size: 12px; font-weight: 600; color: var(--brown-mid); }
+  .testimonial-location { font-size: 11px; color: var(--text-muted); }
+
+  /* ─── PRICING ─────────────────────────────────────────── */
+  .pricing-section {
+    background: linear-gradient(160deg, var(--brown-deep) 0%, #2E1208 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(201,168,76,0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .pricing-section .section-title { color: var(--white); position: relative; }
+  .pricing-section .section-lead { color: rgba(255,255,255,0.5); position: relative; }
+
+  .pricing-card {
+    max-width: 480px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--brown-deep);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .price-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+    margin-top: 10px;
+  }
+
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .price-currency {
+    font-size: 20px;
+    font-weight: 400;
+    vertical-align: super;
+  }
+
+  .price-unit {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 28px;
+  }
+
+  .price-includes {
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  .price-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .price-item .check { color: var(--gold); font-size: 15px; }
+
+  .cta-big {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--brown-deep);
+    font-size: 16px;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 10px 40px rgba(201,168,76,0.4);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 16px;
+  }
+
+  .cta-big:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(201,168,76,0.55);
+  }
+
+  .cta-sub {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .cta-sub span { display: flex; align-items: center; gap: 4px; }
+
+  /* ─── FAQ ─────────────────────────────────────────────── */
+  .faq-section { background: var(--cream-warm); }
+
+  .faq-list { max-width: 640px; margin: 0 auto; }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    overflow: hidden;
+  }
+
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brown-deep);
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .faq-q .chevron {
+    color: var(--gold);
+    font-size: 18px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .faq-q.open .chevron { transform: rotate(180deg); }
+
+  .faq-a {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0;
+  }
+
+  .faq-a.open { max-height: 300px; padding-bottom: 16px; }
+
+  /* ─── FOOTER ─────────────────────────────────────────── */
+  .footer {
+    background: var(--brown-deep);
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .footer-tagline {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    line-height: 1.6;
+  }
+
+  /* ─── STICKY CTA ─────────────────────────────────────── */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--brown-deep);
+    border-top: 1px solid rgba(201,168,76,0.3);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 100;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+  }
+
+  .sticky-cta.visible { transform: translateY(0); }
+
+  .sticky-left { display: flex; flex-direction: column; }
+  .sticky-title { font-size: 13px; font-weight: 700; color: var(--white); }
+  .sticky-price { font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .sticky-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--brown-deep);
+    font-size: 13px;
+    font-weight: 800;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 700px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    .book-mockup { order: -1; }
+    .trust-row { justify-content: center; }
+    .author-inner { grid-template-columns: 1fr; text-align: center; }
+    .author-avatar { margin: 0 auto; }
+    .pricing-card { padding: 28px 20px; }
+    .proof-bar { gap: 20px; }
+    section { padding: 60px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .book-3d { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <!-- Book Mockup -->
+    <div class="book-mockup">
+      <div class="book-shadow"></div>
+      <div class="book-3d">
+        <div class="book-face">
+          <div class="book-top-band"></div>
+          <div class="book-bottom-band"></div>
+          <div class="book-content">
+            <div class="book-stars">✦ ✦ ✦</div>
+            <div class="book-title-small">Le Secret des</div>
+            <div class="book-title-main">CHEVEUX<br>CRÉPUS</div>
+            <div class="book-line"></div>
+            <div class="book-subtitle">Le Guide Premium pour des<br>Cheveux Longs, Forts<br>et Éclatants</div>
+            <div class="book-line"></div>
+            <div class="book-author">Nafissatou Sawoura</div>
+          </div>
+        </div>
+      </div>
+      <div class="badge-floating">
+        <span>+38</span>
+        <span>pages</span>
+      </div>
+    </div>
+
+    <!-- Text -->
+    <div class="hero-text">
+      <div class="hero-eyebrow">Guide Premium</div>
+      <h1 class="hero-h1">Tes cheveux<br><em>méritent mieux</em><br>que ça.</h1>
+      <p class="hero-subtitle">Le guide complet pour comprendre, nourrir et faire pousser tes cheveux crépus — enfin.</p>
+      <p class="hero-promise">
+        <strong>16 chapitres · 5 bonus exclusifs</strong> · tableaux de routine · programme 30 jours · check-lists · recettes naturelles · tout ce dont tu as besoin pour transformer tes cheveux dès cette semaine.
+      </p>
+      <div class="cta-group">
+        <a href="https://dmlhtdyr.mychariow.shop/prd_c36ccye5" class="cta-primary">
+          Je veux ce guide <span class="arrow">→</span>
+        </a>
+        <div class="cta-meta">Téléchargement immédiat · PDF · Compatible mobile &amp; PC</div>
+        <div class="trust-row">
+          <div class="trust-item"><span class="icon">🔒</span> Paiement sécurisé</div>
+          <div class="trust-item"><span class="icon">⚡</span> Accès instantané</div>
+          <div class="trust-item"><span class="icon">🌿</span> 100% naturel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PROOF BAR
+════════════════════════════════════════════════════════ -->
+<div class="proof-bar">
+  <div class="proof-item">
+    <span class="proof-icon">📖</span>
+    <div class="proof-text"><strong>16 Chapitres</strong>complets et détaillés</div>
+  </div>
+  <div class="proof-item">
+    <span class="proof-icon">🗓️</span>
+    <div class="proof-text"><strong>Programme 30 Jours</strong>suivi pas à pas</div>
+  </div>
+  <div class="proof-item">
+    <span class="proof-icon">🎁</span>
+    <div class="proof-text"><strong>5 Bonus</strong>offerts avec le guide</div>
+  </div>
+  <div class="proof-item">
+    <span class="proof-icon">🌍</span>
+    <div class="proof-text"><strong>Made in Africa</strong>pour les femmes africaines</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAIN
+════════════════════════════════════════════════════════ -->
+<section class="pain-section">
+  <div class="container">
+    <div class="section-eyebrow">Tu te reconnais ?</div>
+    <h2 class="section-title">Ces situations qui t'épuisent...</h2>
+    <p class="section-lead">Chaque femme aux cheveux crépus a vécu ça au moins une fois. Si tu coches plusieurs cases, ce guide est exactement ce qu'il te faut.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">😩</div>
+        <div class="pain-text">Tu achètes produit sur produit, mais tes cheveux restent secs, cassants et sans vie.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📉</div>
+        <div class="pain-text">Tes cheveux semblent ne jamais pousser, peu importe ce que tu fais.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🕯️</div>
+        <div class="pain-text">Tu suis des tutoriels sur les réseaux, mais les résultats ne sont jamais au rendez-vous.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🤯</div>
+        <div class="pain-text">Les conseils sont contradictoires. Tu ne sais plus quoi croire ni par où commencer.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">✂️</div>
+        <div class="pain-text">Tu perds plus de longueur par la casse que tu n'en gagnes en croissance.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">😔</div>
+        <div class="pain-text">Tu commences à douter que des cheveux crépus longs et sains soient vraiment possibles pour toi.</div>
+      </div>
+    </div>
+
+    <div class="transition-promise">
+      <p>La vérité ? Le problème n'est pas tes cheveux. C'est que personne ne t'a encore expliqué <em>comment ils fonctionnent vraiment.</em><br>Ce guide fait exactement ça.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     CONTENT
+════════════════════════════════════════════════════════ -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-eyebrow">Ce que tu vas apprendre</div>
+    <h2 class="section-title">16 chapitres pour tout changer</h2>
+    <p class="section-lead">De la structure de ta fibre capillaire à la recette du bon masque maison — chaque chapitre t'apporte un savoir immédiatement applicable.</p>
+
+    <div class="chapters-grid">
+      <div class="chapter-card"><div class="ch-num">01</div><div class="ch-info"><div class="ch-title">Comprendre les cheveux crépus</div></div></div>
+      <div class="chapter-card"><div class="ch-num">02</div><div class="ch-info"><div class="ch-title">Les vraies causes de la casse</div></div></div>
+      <div class="chapter-card"><div class="ch-num">03</div><div class="ch-info"><div class="ch-title">Les erreurs qui bloquent la pousse</div></div></div>
+      <div class="chapter-card"><div class="ch-num">04</div><div class="ch-info"><div class="ch-title">Les bases d'une routine efficace</div></div></div>
+      <div class="chapter-card"><div class="ch-num">05</div><div class="ch-info"><div class="ch-title">L'hydratation expliquée simplement</div></div></div>
+      <div class="chapter-card"><div class="ch-num">06</div><div class="ch-info"><div class="ch-title">Les huiles végétales et leurs usages</div></div></div>
+      <div class="chapter-card"><div class="ch-num">07</div><div class="ch-info"><div class="ch-title">Les beurres végétaux (karité, cacao…)</div></div></div>
+      <div class="chapter-card"><div class="ch-num">08</div><div class="ch-info"><div class="ch-title">Shampoings : comment bien choisir</div></div></div>
+      <div class="chapter-card"><div class="ch-num">09</div><div class="ch-info"><div class="ch-title">Après-shampoings et leave-in</div></div></div>
+      <div class="chapter-card"><div class="ch-num">10</div><div class="ch-info"><div class="ch-title">Les masques capillaires</div></div></div>
+      <div class="chapter-card"><div class="ch-num">11</div><div class="ch-info"><div class="ch-title">Coiffures protectrices</div></div></div>
+      <div class="chapter-card"><div class="ch-num">12</div><div class="ch-info"><div class="ch-title">Cheveux des enfants</div></div></div>
+      <div class="chapter-card"><div class="ch-num">13</div><div class="ch-info"><div class="ch-title">Nutrition et santé capillaire</div></div></div>
+      <div class="chapter-card"><div class="ch-num">14</div><div class="ch-info"><div class="ch-title">Habitudes qui font la différence</div></div></div>
+      <div class="chapter-card"><div class="ch-num">15</div><div class="ch-info"><div class="ch-title">Programme de soins sur 30 jours</div></div></div>
+      <div class="chapter-card"><div class="ch-num">16</div><div class="ch-info"><div class="ch-title">Questions fréquentes (FAQ)</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     BONUS
+════════════════════════════════════════════════════════ -->
+<section class="bonus-section">
+  <div class="container">
+    <div class="section-eyebrow" style="color:var(--gold-light)">Inclus dans le guide</div>
+    <h2 class="section-title">5 Bonus exclusifs</h2>
+    <p class="section-lead" style="color:rgba(255,255,255,0.5)">Outils pratiques à garder et utiliser chaque semaine, en plus du contenu principal.</p>
+
+    <div class="bonus-grid">
+      <div class="bonus-card">
+        <div class="bonus-icon">🗓️</div>
+        <div class="bonus-title">Calendrier de suivi des soins</div>
+        <div class="bonus-desc">8 semaines à cocher semaine après semaine pour rester consistante.</div>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon">📋</div>
+        <div class="bonus-title">Fiche de routine hebdomadaire</div>
+        <div class="bonus-desc">Note chaque jour tes soins, produits et observations.</div>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon">🌿</div>
+        <div class="bonus-title">Ingrédients naturels à privilégier</div>
+        <div class="bonus-desc">Le tableau complet des meilleurs ingrédients avec leurs bienfaits.</div>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon">🚫</div>
+        <div class="bonus-title">Les erreurs à éviter absolument</div>
+        <div class="bonus-desc">15 erreurs que font presque toutes les femmes — à éliminer de ta routine.</div>
+      </div>
+      <div class="bonus-card">
+        <div class="bonus-icon">🛒</div>
+        <div class="bonus-title">Guide d'achat de produits</div>
+        <div class="bonus-desc">Comment décoder une étiquette et ne plus jamais être trompée.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     AUTHOR
+════════════════════════════════════════════════════════ -->
+<section class="author-section">
+  <div class="container">
+    <div class="author-inner">
+      <div>
+        <div class="author-avatar">👑</div>
+      </div>
+      <div>
+        <div class="author-role">Fondatrice · NAFA NATURE</div>
+        <div class="author-name">Nafissatou Sawoura</div>
+        <p class="author-bio">
+          Passionnée de trichologie et de cosmétologie naturelle, je suis fondatrice de NAFA NATURE, une marque de soins capillaires naturels créée au cœur du Burkina Faso. Mon engagement : valoriser les ingrédients africains — le karité du Sahel, les huiles végétales pures, les plantes locales — pour offrir à chaque femme les outils de sa propre beauté.<br><br>
+          Ce guide est le condensé de mes années de recherche et de mon expérience avec des centaines de femmes aux cheveux crépus qui cherchaient les mêmes réponses que toi.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════════════════ -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-eyebrow">Elles ont transformé leurs cheveux</div>
+    <h2 class="section-title">Ce qu'elles en disent</h2>
+    <p class="section-lead">Des résultats réels, pas du marketing.</p>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">En 3 semaines j'ai vu une vraie différence. Moins de casse, mes cheveux retiennent enfin l'hydratation. Le programme 30 jours est génial.</div>
+        <div class="testimonial-author">Aminata K.</div>
+        <div class="testimonial-location">Ouagadougou, Burkina Faso</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">Enfin un guide fait pour NOUS, les Africaines. Les ingrédients sont ceux qu'on trouve au marché. Simple, pratique et efficace.</div>
+        <div class="testimonial-author">Fatoumata D.</div>
+        <div class="testimonial-location">Abidjan, Côte d'Ivoire</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">J'ai compris pourquoi mes cheveux ne poussaient pas. Le chapitre sur la porosité a tout changé. Je recommande à toutes mes amies.</div>
+        <div class="testimonial-author">Rokhaya S.</div>
+        <div class="testimonial-location">Dakar, Sénégal</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PRICING
+════════════════════════════════════════════════════════ -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-eyebrow" style="color:var(--gold-light);position:relative">Offre de lancement</div>
+    <h2 class="section-title">Accède au guide maintenant</h2>
+    <p class="section-lead">Un seul paiement. Accès immédiat. Résultats durables.</p>
+
+    <div class="pricing-card">
+      <div class="pricing-badge">✦ Offre de lancement ✦</div>
+
+      <div class="price-label">Prix du guide</div>
+      <div class="price-amount"><span class="price-currency">FCFA </span>5 000</div>
+      <div class="price-unit">Accès immédiat · PDF téléchargeable</div>
+
+      <div class="price-includes">
+        <div class="price-item"><span class="check">✓</span> Guide complet — 16 chapitres</div>
+        <div class="price-item"><span class="check">✓</span> Programme de soins sur 30 jours</div>
+        <div class="price-item"><span class="check">✓</span> Tableaux de routine &amp; check-lists</div>
+        <div class="price-item"><span class="check">✓</span> Recettes maison naturelles</div>
+        <div class="price-item"><span class="check">✓</span> Glossaire capillaire complet</div>
+        <div class="price-item"><span class="check">✓</span> Bonus 1 — Calendrier de suivi (8 semaines)</div>
+        <div class="price-item"><span class="check">✓</span> Bonus 2 — Fiche routine hebdomadaire</div>
+        <div class="price-item"><span class="check">✓</span> Bonus 3 — Guide ingrédients naturels</div>
+        <div class="price-item"><span class="check">✓</span> Bonus 4 — Liste des 15 erreurs à éviter</div>
+        <div class="price-item"><span class="check">✓</span> Bonus 5 — Guide d'achat anti-arnaque</div>
+      </div>
+
+      <a href="https://dmlhtdyr.mychariow.shop/prd_c36ccye5" class="cta-big">✦ Obtenir le guide maintenant ✦</a>
+      <div class="cta-sub">
+        <span>🔒 Paiement sécurisé</span>
+        <span>⚡ Livraison instantanée</span>
+        <span>📱 Lisible sur mobile</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FAQ
+════════════════════════════════════════════════════════ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="section-eyebrow">Tes questions</div>
+    <h2 class="section-title">Foire aux questions</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Comment je reçois le guide après paiement ?
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="faq-a">Tu reçois un lien de téléchargement immédiatement après le paiement. Le fichier PDF est accessible depuis ton téléphone, ta tablette ou ton ordinateur.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Ce guide est-il adapté à tous les types de cheveux crépus ?
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="faq-a">Oui. Le guide couvre les types 3C à 4C, avec un chapitre entier dédié à la classification et à l'identification de ton type. Les conseils sont adaptables à chaque texture.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Les ingrédients recommandés sont-ils disponibles en Afrique de l'Ouest ?
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="faq-a">Absolument. Ce guide a été conçu spécifiquement pour les femmes africaines. Tous les ingrédients mentionnés (karité, huiles végétales, aloe vera, argile…) sont disponibles dans les marchés locaux et les pharmacies.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          En combien de temps verrai-je des résultats ?
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="faq-a">La plupart des femmes constatent moins de casse et plus de douceur dès la 3ème à 4ème semaine. Les résultats visibles sur la longueur apparaissent généralement au bout de 2 à 3 mois de routine régulière.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Le guide est-il utilisable pour les cheveux des enfants ?
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="faq-a">Oui, le chapitre 12 est entièrement dédié aux cheveux des enfants, avec une routine adaptée, des produits recommandés et des conseils pour rendre la séance de soin agréable pour les petites filles.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-brand">NAFA NATURE</div>
+  <div class="footer-tagline">La nature africaine au service de ta beauté</div>
+  <div class="footer-copy">
+    © 2024 Nafissatou Sawoura — NAFA NATURE. Tous droits réservés.<br>
+    Ce guide est protégé par le droit d'auteur. Reproduction ou redistribution interdites sans autorisation.
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     STICKY CTA
+════════════════════════════════════════════════════════ -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="sticky-left">
+    <div class="sticky-title">Le Secret des Cheveux Crépus</div>
+    <div class="sticky-price">5 000 FCFA · Accès immédiat</div>
+  </div>
+  <a href="https://dmlhtdyr.mychariow.shop/prd_c36ccye5" class="sticky-btn">Obtenir le guide →</a>
+</div>
+
+<script>
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    document.querySelectorAll('.faq-q').forEach(b => {
+      b.classList.remove('open');
+      b.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      btn.classList.add('open');
+      answer.classList.add('open');
+    }
+  }
+
+  // Sticky CTA on scroll
+  const stickyCta = document.getElementById('stickyCta');
+  const hero = document.querySelector('.hero');
+  const observer = new IntersectionObserver(([entry]) => {
+    stickyCta.classList.toggle('visible', !entry.isIntersecting);
+  }, { threshold: 0 });
+  observer.observe(hero);
+
+  // Smooth scroll for CTA links
+  document.querySelectorAll('a[href="#pricing"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
